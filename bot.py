@@ -1,11 +1,12 @@
 #!/usr/bin/python3
-import os, requests, time
+import os, requests, time, socket, json
 
 while True:
-	ip = os.popen(str("ip a")).read().split('inet')[4].split('/')[0].strip()
-
+	hn = socket.gethostname()
+	ip = socket.gethostbyname(hn)
 	commands = requests.get('http://localhost/beacon?ip=' + ip) 
-
-	print (commands.content)
+	commands = json.loads(str(commands.content, 'utf-8'))
+	for cmd in commands:
+		print(cmd)
 	
 	time.sleep(10)

