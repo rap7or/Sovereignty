@@ -9,5 +9,5 @@ be added to it
 
 # Bot
 
-Sends a GET to recieve list of commands to run and executes them. Sends back 
+Sends a GET with its IP to recieve list of commands to run and executes them. Sends back 
 list of successful commands. 
