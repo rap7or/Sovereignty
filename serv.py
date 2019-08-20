@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 from flask import Flask, render_template, request
+from flask_httpauth import HTTPBasicAuth
+from werkzeug.security import generate_password_hash, check_password_hash
 from collections import defaultdict
 from collections import defaultdict
 import os, json
@@ -7,7 +9,17 @@ import os, json
 bots = defaultdict(list)
 botLst = []
 app = Flask(__name__)
+auth = HTTPBasicAuth()
 
+users = {
+    "admin": generate_password_hash("stardust")
+}
+
+@auth.verify_password
+def login(username, password):
+    if username in users:
+        return check_password_hash(users.get(username), password)
+    return False
 
 """
 Function: index
@@ -16,8 +28,8 @@ Returns: HTML to serve as well as variables to fill
 Description: Landing page for server.
 			 Shows active bots as well as takes commands to send
 """
-#TODO add authentication to prevent misuse
 @app.route('/')
+@auth.login_required
 def index():
 	botIP = request.args.get('botIP')
 	command = request.args.get('command')
