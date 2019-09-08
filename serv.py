@@ -4,7 +4,21 @@ from flask_httpauth import HTTPBasicAuth
 from werkzeug.security import generate_password_hash, check_password_hash
 from collections import defaultdict
 from collections import defaultdict
-import os, json
+import os, json, time
+import sqlalchemy as db
+
+
+#os.system('docker-compose up  -d --build')
+#time.sleep(10)
+engine = db.create_engine('mysql+pymysql://admin:stardust@localhost:3306/Sovereignty')
+connection = engine.connect()
+#metadata = db.MetaData()
+#sov = db.Table('Sovereignty', metadata, autoload=True, autoload_with=engine)
+#print(sov.columns.keys())
+
+insp = db.inspect(engine)
+db_list = insp.get_schema_names()
+print(db_list)
 
 bots = defaultdict(list)
 botLst = []

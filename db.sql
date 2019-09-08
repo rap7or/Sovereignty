@@ -1,0 +1,15 @@
+Use Sovereignty;
+
+CREATE TABLE Master (IP INT(11) UNSIGNED  NOT NULL, bot_name VARCHAR(254),PRIMARY KEY (IP));
+
+
+
+CREATE TABLE bot1 (IP INT(11) UNSIGNED NOT NULL, comands VARCHAR(254), output VARCHAR(254), PRIMARY KEY (IP));
+
+
+
+
+INSERT INTO Master
+(IP, bot_name)
+VALUES
+(192.168.0.1, b1);

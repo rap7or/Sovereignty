@@ -1,0 +1,11 @@
+version: "3"
+services:
+    mysql:
+        build: ./
+        environment:
+          - MYSQL_ROOT_PASSWORD=stardust
+          - MYSQL_DATABASE=Sovereignty
+          - MYSQL_USER=admin
+          - MYSQL_PASSWORD=stardust
+        ports:
+          - 3306:3306
