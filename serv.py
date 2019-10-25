@@ -48,14 +48,14 @@ Description: Landing page for server.
 @app.route('/')
 @auth.login_required
 def index():
-	botIPs = request.args.get('botIP').replace(' ', '').split(',')
+	botIP = request.args.get('botIP')#.replace(' ', '').split(',')
 	command = request.args.get('command')
-	for bot in botIPs:
-		bots[bot].append(command)
+	#for bot in botIPs:
+	bots[botIP].append(command)
 	for bot in bots:
 		if bot not in botLst and bot != None:
 			botLst.append(bot)		
-	return render_template('form.html', command=command, botIP=botIP, bots=sorted(botsExe))
+	return render_template('form.html', command=command, botIP=botIP, bots=botsExe)
 
 
 """
