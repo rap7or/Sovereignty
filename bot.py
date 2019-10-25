@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 import os, requests, time, socket, json, random, sys, random
 
-'''ips = [
+ips = [
 		'192.168.5.147',
 		'192.168.5.152',
 		'192.168.5.164',
@@ -22,9 +22,9 @@ import os, requests, time, socket, json, random, sys, random
 		'192.168.6.211',
 		'192.168.6.6',
 		'192.168.6.82'
-]'''
+]
 
-ips=['127.0.0.1']
+#ips=['127.0.0.1']
 
 """
 Function: getIP
