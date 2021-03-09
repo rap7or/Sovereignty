@@ -10,7 +10,7 @@ WORKDIR /app
 RUN pip3 install -r requirements.txt
 
 # Set up the data directories for the app
-COPY ./serv.py /app
+COPY . /app
 
 
 # Run the app
